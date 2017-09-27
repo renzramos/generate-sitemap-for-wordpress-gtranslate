@@ -18,25 +18,20 @@ $output = '';
 $output.='<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL; 
 $output.='<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">' .PHP_EOL; 
  
-
 foreach ($languages as $language){
     
     if ($language == "en") continue;
     
-    
- 
     $post_types = array('page','post');
    
     foreach ($post_types as $post_type){
-        // pages
+
         $args = array(
             'post_type' => array( $post_type ),
             'post_status' => array( 'publish'),
             'posts_per_page' => -1
         );
-
         $query = new WP_Query( $args );
-
 
         if ( $query->have_posts() ) :
 
@@ -52,7 +47,6 @@ foreach ($languages as $language){
     }
     
 }
-
 
 $output.='</urlset>'; 
 $sitemap = fopen("generated-sitemap.xml", "w") or die("Unable to open file!");
