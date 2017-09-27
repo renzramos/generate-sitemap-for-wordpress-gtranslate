@@ -24,57 +24,33 @@ foreach ($languages as $language){
     if ($language == "en") continue;
     
     
-    // pages
-    $args = array(
-        'post_type' => array( 'page'),
-        'post_status' => array( 'publish'),
-        'posts_per_page' => -1
-    );
+ 
+    $post_types = array('page','post');
+   
+    foreach ($post_types as $post_type){
+        // pages
+        $args = array(
+            'post_type' => array( $post_type ),
+            'post_status' => array( 'publish'),
+            'posts_per_page' => -1
+        );
+
+        $query = new WP_Query( $args );
+
+
+        if ( $query->have_posts() ) :
+
+            while ( $query->have_posts() ) : $query->the_post(); 
+
+            $url = str_replace(home_url('/'), home_url(). '/' . $language . '/', get_permalink());
+            $output.= urlElement($url);
+
+
+            endwhile; 
+            wp_reset_postdata();
+        endif; 
+    }
     
-    $query = new WP_Query( $args );
-    
-    
-    if ( $query->have_posts() ) :
-        
-        while ( $query->have_posts() ) : $query->the_post(); 
-        
-        $url = str_replace(home_url('/'), home_url(). '/' . $language . '/', get_permalink());
-        $output.= urlElement($url);
-        
-        
-        endwhile; 
-        wp_reset_postdata();
-    endif; 
-    
-    // reviews
-    $args = array(
-        'post_type' => array( 'review'),
-        'post_status' => array( 'publish'),
-        'posts_per_page' => -1
-    );
-    
-    $query = new WP_Query( $args );
-    
-    
-    if ( $query->have_posts() ) :
-        
-        while ( $query->have_posts() ) : $query->the_post(); 
-        
-        $url = str_replace(home_url('/'), home_url(). '/' . $language . '/', get_permalink());
-        $output.= urlElement($url);
-        
-        
-        endwhile; 
-        wp_reset_postdata();
-    endif; 
-    
-    
-    //$output.= urlElement(home_url() . '/' . $language . '/');
-    
-    // check all pages
-    
-    
-    // check all reviews
 }
 
 
