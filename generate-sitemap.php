@@ -7,12 +7,8 @@
 
 define('WP_USE_THEMES', true);
 require( 'wp-load.php' );
-
-
 $data = get_option('GTranslate');
 $languages = $data['fincl_langs'];
-
-
 $output = '';
 
 $output.='<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL; 
@@ -25,22 +21,16 @@ foreach ($languages as $language){
     $post_types = array('page','post');
    
     foreach ($post_types as $post_type){
-
         $args = array(
             'post_type' => array( $post_type ),
             'post_status' => array( 'publish'),
             'posts_per_page' => -1
         );
         $query = new WP_Query( $args );
-
         if ( $query->have_posts() ) :
-
             while ( $query->have_posts() ) : $query->the_post(); 
-
-            $url = str_replace(home_url('/'), home_url(). '/' . $language . '/', get_permalink());
-            $output.= urlElement($url);
-
-
+               $url = str_replace(home_url('/'), home_url(). '/' . $language . '/', get_permalink());
+               $output.= urlElement($url);
             endwhile; 
             wp_reset_postdata();
         endif; 
